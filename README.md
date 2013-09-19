@@ -15,7 +15,7 @@ NOTE TO THE CONTRIBUTORS:
 
 * As a starter, you need to be aware of git pull / git checkout / git branch / git status / git log / git commit at the least.
  
-* I use SourceTree for viewing project status (available on MAC for Free)
+* I use SourceTree, a MAC client for git for viewing project status (available on MAC for Free)
  
 * More details will be communicated.
 ....
