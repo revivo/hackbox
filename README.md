@@ -8,7 +8,7 @@ Note to the contributors:
 
 * Please use python v2.7.5 and django v1.5.1 (https://docs.djangoproject.com/en/dev/ref/django-admin/) for parity.
 
-* I found this django project setup blog (http://gun.io/blog/setting-up-a-django-project/). DONOT use virtualenv as suggested in the blog if that's complicated. 
+* I found this django project setup blog (http://gun.io/blog/setting-up-a-django-project/). You can skip virtualenv setup as suggested in the blog. 
 
 * You will additionally need to install MYSQL server / client.
  
