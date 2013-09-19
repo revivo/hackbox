@@ -15,7 +15,9 @@ NOTE TO THE CONTRIBUTORS:
 
 * As a starter, you need to be aware of git pull / git checkout / git branch / git status / git log / git commit at the least.
  
-* I use SourceTree, a MAC client for git for viewing project status (available on MAC for Free)
+* I use SourceTree (http://www.sourcetreeapp.com/), a MAC client for git.
+
+* For coding you can use Eclipse with Python + Django plugin or get Pycharm IDE free for a month. 
  
 * More details will be communicated.
 ....
