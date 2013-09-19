@@ -3,7 +3,7 @@ hackbox
 
 python + django app. more details to be soon provided.
 
-NOTE TO THE CONTRIBUTORS:
+Note to the contributors:
 =========================
 
 * Please use python v2.7.5 and django v1.5.1 (https://docs.djangoproject.com/en/dev/ref/django-admin/) for parity.
