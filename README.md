@@ -3,15 +3,6 @@ hackbox
 
 python + django app. more details to be soon provided.
 
-Hackbox directory layout (django v1.5.1):
-
-|--- manage.py
-|--- README.md
-|--- mysite
-    |--- __init__.py
-    |--- settings.py
-    |--- urls.py
-    |--- wsgi.py
 
 Note to the contributors:
 =========================
@@ -19,6 +10,8 @@ Note to the contributors:
 * Please use python v2.7.5 and django v1.5.1 (https://docs.djangoproject.com/en/dev/ref/django-admin/) for parity.
 
 * I found this django project setup blog (http://gun.io/blog/setting-up-a-django-project/). You can skip virtualenv setup as suggested in the blog. 
+
+* Hackbox directory layout is same as illustrated in the django app setup blog above.
 
 * You will additionally need to install MYSQL server / client.
  
