@@ -3,6 +3,16 @@ hackbox
 
 python + django app. more details to be soon provided.
 
+Hackbox directory layout (django v1.5.1):
+
+├── manage.py
+├── README.md
+└── mysite
+    ├── __init__.py
+    ├── settings.py
+    ├── urls.py
+    └── wsgi.py
+
 Note to the contributors:
 =========================
 
