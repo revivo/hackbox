@@ -1,25 +1,33 @@
 # Django settings for hackbox project.
+import os
+from django.core.urlresolvers import reverse_lazy
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('deezzy', 'dib.ghosh@gmail.com'),
 )
 
 MANAGERS = ADMINS
 
-DATABASES = {
+DEV_DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Hackbox',
+        'USER': 'hackbox',
+        'PASSWORD': 'hackbox',
+        'HOST': '',
+        'PORT': '',
+        'OPTIONS': {'init_command': 'SET storage_engine=MyISAM', },
     }
 }
+
+TEST_DATABASES = {
+    'default': {'ENGINE': 'django.db.backends.sqlite3'}
+}
+
+DATABASES = DEV_DATABASES
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -29,7 +37,7 @@ ALLOWED_HOSTS = []
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'America/Los_Angeles'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -50,18 +58,18 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.path.join(os.path.dirname(__file__), '../media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = '../static'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -79,7 +87,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -89,7 +97,14 @@ SECRET_KEY = 'ai!eg!laf)-+7y341cabt%cwl=h0%8l$mdenko^3e-4a36w=&5'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    #     'django.template.loaders.eggs.Loader',
+)
+
+# Settings for passing request variable instance to templatetags
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -111,6 +126,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(os.path.dirname(__file__), 'templates'),
 )
 
 INSTALLED_APPS = (
@@ -120,11 +136,18 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admin',
+    'south',
+    'hackbox',
+    'tastypie',
+    'registration',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -133,7 +156,16 @@ INSTALLED_APPS = (
 # more details on how to customize your logging configuration.
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'simple_log': {
+            'format': '%(asctime)s - %(message)s'
+        },
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s:%(lineno)d: %(funcName)s %(message)s',
+            'datefmt': '%m-%d %H:%M:%S'
+        },
+    },
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'
@@ -144,7 +176,16 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
+        'hackbox_file': {
+            'level': 'DEBUG',
+            'formatter': 'simple_log',
+            'filename': '/var/log/hackbox/hackbox.log',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'when': 'midnight',
+            'interval': 1,
+            'backupCount': 7,
+        },
     },
     'loggers': {
         'django.request': {
@@ -152,5 +193,13 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'hackbox': {
+            'handlers': ['hackbox_file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
     }
 }
+
+HACKBOX_VERSION = '0.0.1'
+HACKBOX_API_VERSION = '0.0.1'

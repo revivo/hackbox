@@ -1,0 +1,23 @@
+<html>
+<head>
+  <title>Steel Rumors</title>
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/main.css" />
+</head>
+<body>
+<h1>Steel Rumors</h1>
+
+{% block content %}
+{% endblock %}
+
+<footer>
+  <p>
+    <a href="">Home</a> |
+{% if user.is_authenticated %}
+    <a href="#">Logout</a> |
+{% else %}
+    <a href="#">Login</a>
+{% endif %}
+  </p>
+</footer>
+</body>
+</html>
